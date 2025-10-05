@@ -1,0 +1,30 @@
+# numpy
+numpy==1.23.5
+pandas
+Pillow==9.0.1
+dlib
+imageio
+imgaug==0.4.0
+tqdm==4.61.0
+scipy
+seaborn
+pyyaml==6.0
+imutils==0.5.4
+opencv-python==4.6.0.66
+scikit-image
+scikit-learn
+albumentations
+efficientnet-pytorch
+torchtoolbox==0.1.8.2
+tensorboard
+setuptools
+loralib
+einops
+transformers
+filterpy
+simplejson
+kornia
+fvcore
+# mtcnn
+imgaug
+torchvision

@@ -1,0 +1,113 @@
+# log dir 
+log_dir: /data/home/zhiyuanyan/DeepfakeBench/logs/testing_bench
+# /home/wisley/code/2025xinye_face/2025_finvcup10th_baseline/exps/efficientnet_efficient_b7_1_2025-06-30-19-22-01/test/val/ckpt_best.pth
+# model setting
+pretrained: ''   # path to a pre-trained model, if using one
+model_name: sbi   # model name
+backbone_name: efficientnet  # backbone name
+
+#backbone setting
+backbone_config:
+  mode: tf_efficientnet_b4.ns_jft_in1k
+  num_classes: 2
+  inc: 3
+  dropout: false
+  pretrained: true
+
+# dataset
+all_dataset: [train, val] # 这个没啥用
+train_dataset: [xy_train]
+test_dataset: [xy_val, dfdc_test_sample]
+dataset_type: blend
+ckpt: '' # 用于推理时加载
+
+# dbug查看aug后的图片
+debug: true
+vis_num: 10  # 应该小于batch size
+vis_max: 20
+# mixup 增强
+mixup: 0
+## 第一次是否测试
+test_first: false
+
+compression: c23  # compression-level for videos
+train_batchSize: 16   # training batch size
+test_batchSize: 32   # test batch size
+workers: 8   # number of data loading workers
+frame_num: {'train': 32, 'test': 32}   # number of frames to use per video in training and testing
+resolution: 380   # resolution of output image to network
+with_mask: false   # whether to include mask information in the input
+with_landmark: true   # whether to include facial landmark information in the input
+
+
+# data augmentation
+use_data_augmentation: true  # Add this flag to enable/disable data augmentation
+data_aug:
+  flip_prob: 0.5
+  rotate_prob: 0.5
+  rotate_limit: [-10, 10]
+  blur_prob: 0.5
+  blur_limit: [3, 7]
+  brightness_prob: 0.5
+  brightness_limit: [-0.1, 0.1]
+  GridDropout: 0.15 # 新加
+  ToGray: 0.15    # 新加
+  GaussNoise: 0.15  # 新加
+  contrast_limit: [-0.1, 0.1]
+  quality_lower: 40
+  quality_upper: 100
+
+# mean and std for normalization
+mean: [0.5, 0.5, 0.5]
+std: [0.5, 0.5, 0.5]
+
+# optimizer config
+optimizer:
+  # choose between 'adam' and 'sgd'
+  type: adam
+  adam:
+    lr: 0.00001  # learning rate
+    beta1: 0.9  # beta1 for Adam optimizer
+    beta2: 0.999 # beta2 for Adam optimizer
+    eps: 0.00000001  # epsilon for Adam optimizer
+    weight_decay: 0.0005  # weight decay for regularization
+    amsgrad: false
+  sgd:
+    lr: 0.000001  # learning rate
+    momentum: 0.9  # momentum for SGD optimizer
+    weight_decay: 0.0005  # weight decay for regularization
+
+# training config
+
+
+lr_scheduler:  # learning rate scheduler
+  type: step
+  step:
+    lr_step: 2
+    lr_gamma: 0.9
+  cosine:
+    lr_T_max: 100
+    lr_eta_min: 1e7
+  linear: null
+
+
+nEpochs: 10   # number of epochs to train for
+start_epoch: 0   # manual epoch number (useful for restarts)
+save_epoch: 1   # interval epochs for saving models
+rec_iter: 300   # interval iterations for recording
+logdir: ./logs   # folder to output images and logs
+manualSeed: 1024   # manual seed for random number generation
+save_ckpt: true   # whether to save checkpoint
+save_feat: true   # whether to save features
+
+# loss function
+loss_func: cross_entropy   # loss function to use
+losstype: null
+
+# metric
+metric_scoring: auc   # metric for evaluation (auc, acc, eer, ap)
+
+# cuda
+
+cuda: true   # whether to use CUDA acceleration
+cudnn: true   # whether to use CuDNN for convolution operations
